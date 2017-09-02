@@ -11,12 +11,17 @@ $db = array_merge(
 
 $config = [
     'id' => 'basic',
+    'name' => 'Skeleton',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'R8GTNWPLUN_PzBtmfNeq9_D2UzFqvoWP',
+            'baseUrl'=> '',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -51,8 +56,19 @@ $config = [
             'rules' => [
             ],
         ],
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                ],
+            ],
+        ]
+
     ],
     'params' => $params,
+    'sourceLanguage' => 'en-EN',
+    'language' => 'ru-RU',
+    'timeZone' => 'Europe/Kiev',
 ];
 
 if (YII_ENV_DEV) {
