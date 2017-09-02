@@ -1,9 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
-use app\assets\VueAsset;
 
-VueAsset::register($this);
 /* @var $this \yii\web\View */
 /* @var $content string */
 

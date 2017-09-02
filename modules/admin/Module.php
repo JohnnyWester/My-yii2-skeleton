@@ -11,7 +11,6 @@ class Module extends \yii\base\Module
      * @inheritdoc
      */
     public $controllerNamespace = 'app\modules\admin\controllers';
-    public $defaultRoute = 'admin';
 
     /**
      * @inheritdoc
@@ -21,5 +20,7 @@ class Module extends \yii\base\Module
         parent::init();
 
         // custom initialization code goes here
+        $this->defaultRoute = 'admin/login-admin';
+        $this->layout = 'main';
     }
 }

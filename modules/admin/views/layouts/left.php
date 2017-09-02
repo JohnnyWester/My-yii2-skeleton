@@ -20,19 +20,13 @@ Url::remember();
             [
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => [
-                    ['label' => Yii::t('app', 'Courses'), 'icon' => 'fa fa-line-chart divider', 'url' => ['/admin/courses']],
-                    ['label' => Yii::t('app', 'Settings'), 'icon' => 'fa fa-sitemap', 'url' => ['/admin/settings']],
-                    ['label' => Yii::t('app', 'Push-notification'), 'icon' => 'fa fa-bullhorn', 'url' => ['/admin/push']],
+                    ['label' => Yii::t('app', 'Sample 1'), 'icon' => 'fa fa-line-chart divider', 'url' => ['/admin']],
+                    ['label' => Yii::t('app', 'Sample 2'), 'icon' => 'fa fa-sitemap', 'url' => ['/admin']],
                     [
                         'label' => Yii::t('app', 'Service'),
                         'icon' => 'fa fa-cogs divider',
                         'url' => '#',
                         'items' => [
-//                            [
-//                                'label' => Yii::t('app', 'Users'),
-//                                'icon' => 'fa fa-users',
-//                                'url' => ['/admin'],
-//                            ],
                             ['label' => Yii::t('app', 'Refresh cash'), 'icon' => 'fa fa-file-code-o', 'url' => ['/admin/admin/clear-cash'],],
 
                         ],
@@ -42,6 +36,6 @@ Url::remember();
                 ],
             ]
         ) ?>
-
+        <?php vd(Yii::$app->user->identity);?>
     </section>
 </aside>

@@ -16,28 +16,28 @@ class AdminController extends Controller
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                //'only' => ['logout'],
-                'rules' => [
-                    [
-                        //'actions' => ['logout'],
-//                        'allow' => Yii::$app->user->identity->role_id >= Role::ROLE_ADMIN ,
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'actions' => ['login-admin'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                ],
-            ],
-        ];
-    }
+//    public function behaviors()
+//    {
+//        return [
+//            'access' => [
+//                'class' => AccessControl::className(),
+//                //'only' => ['logout'],
+//                'rules' => [
+//                    [
+////                        'allow' => Yii::$app->user->identity->role_id >= Role::ROLE_ADMIN ,
+//                        'allow' => true,
+//                        'roles' => ['@'],
+//                    ],
+//                    [
+//                        'actions' => ['login-admin'],
+//                        'allow' => true,
+//                        'roles' => ['?'],
+//                    ],
+//                ],
+//            ],
+//        ];
+//    }
+
     public function beforeAction($action)
     {
         return parent::beforeAction($action);
@@ -79,13 +79,15 @@ class AdminController extends Controller
         $this->layout = 'main-login.php';
         if (!Yii::$app->user->isGuest) {
             //return $this->goHome();
-            return $this->redirect(Url::to('/admin'));
+            return $this->redirect(Url::to('/admin/default'));
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(Url::to('/admin'));
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {debug(Yii::$app->user->identity);echo __LINE__;die;
+            return $this->redirect(Url::to('/admin/admin/index'));
+            //return $this->redirect(Url::to('/admin/default'));
         }
+
         return $this->render('login-admin', [
             'model' => $model,
         ]);
