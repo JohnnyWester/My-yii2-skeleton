@@ -21,7 +21,7 @@ return [
             'showScriptName' => true,
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\BasicUser',
         ],        
         'request' => [
             'cookieValidationKey' => 'test',
