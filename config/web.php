@@ -14,6 +14,14 @@ $config = [
     'name' => 'Skeleton',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+        ],
+        'api' => [
+            'class' => 'app\modules\api\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -23,6 +31,12 @@ $config = [
                 'application/json' => 'yii\web\JsonParser',
             ],
         ],
+//        'assetManager' => [
+//            'linkAssets' => true,// все время ссылается на исходники, а не копирует их
+//            'linkAssets' => !empty(YII_ENV_DEV )? true : false ,
+//            'appendTimestamp' => true,
+//        ],
+
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
