@@ -31,6 +31,12 @@ $config = [
                 'application/json' => 'yii\web\JsonParser',
             ],
         ],
+//        'assetManager' => [
+//            'linkAssets' => true,// все время ссылается на исходники, а не копирует их
+//            'linkAssets' => !empty(YII_ENV_DEV )? true : false ,
+//            'appendTimestamp' => true,
+//        ],
+
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
