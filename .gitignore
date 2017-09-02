@@ -32,5 +32,5 @@ tests/_support/_generated
 config/db-local.php
 config/params-local.php
 
-web/apidoc/
-www/apidoc/
+web/apidoc
+www/apidoc
