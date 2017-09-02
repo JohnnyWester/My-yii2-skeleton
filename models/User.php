@@ -16,6 +16,8 @@ use yii\web\IdentityInterface;
  * @property string $password_reset_token
  * @property string $email
  * @property string $auth_key
+ * @property string $access_token
+ * @property integer $role_id
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -67,10 +69,10 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
-    }
+//    public static function findIdentityByAccessToken($token, $type = null)
+//    {
+//        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+//    }
 
     /**
      * Finds user by username
@@ -185,6 +187,21 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * @param mixed $token
+     * @param null $type
+     * @return static
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return static::findOne(['access_token' => $token]);
+    }
+
+    public function generateAccessToken()
+    {
+        $this->access_token = Yii::$app->security->generateRandomString();
     }
 
 }//User
