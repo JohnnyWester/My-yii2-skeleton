@@ -18,8 +18,8 @@ $config = [
         'admin' => [
             'class' => 'app\modules\admin\Module',
         ],
-        'api' => [
-            'class' => 'app\modules\api\Module',
+        'v1'    => [
+            'class' => 'app\modules\api\v1\Module',
         ],
     ],
     'components' => [
