@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Sample" basedir="." default="build">
+
+    <target name="copy">
+        <echo msg="Copying projects files..." />
+        <copy todir="../Phing.bild">
+            <fileset dir = ".">
+                <include name = "src/*" />
+                <exclude name = "src/*.txt" />
+            </fileset>
+            <!--<filelist dir = "." files = "test.html"/>-->
+        </copy>
+    </target>
+
+    <target name="apidoc">
+        <echo msg="Created docs for api..." />
+        <exec command = "apidoc -i modules/api/v1/controllers/ -o web/apidoc/" dir = "." />
+    </target>
+    <target name="build" depends="">
+
+    </target>
+</project>
