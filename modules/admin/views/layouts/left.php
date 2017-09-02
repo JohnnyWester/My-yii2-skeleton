@@ -20,13 +20,14 @@ Url::remember();
             [
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => [
-                    ['label' => Yii::t('app', 'Sample 1'), 'icon' => 'line-chart divider', 'url' => ['/admin']],
+                    ['label' => Yii::t('app', 'Sample 1'), 'icon' => 'line-chart', 'url' => ['/admin']],
                     ['label' => Yii::t('app', 'Sample 2'), 'icon' => 'sitemap', 'url' => ['/admin']],
-                    ['label' => Yii::t('app', 'Sample 3'), 'icon' => 'bullhorn', 'url' => ['/admin']],
+                    ['label' => Yii::t('app', 'Sample 3'), 'icon' => 'bullhorn', 'url' => ['/admin'], 'options' => ['class' => 'divider']],
                     [
                         'label' => Yii::t('app', 'Service'),
-                        'icon' => 'cogs divider',
+                        'icon' => 'cogs',
                         'url' => '#',
+                        'options' => ['class' => 'divider'],
                         'items' => [
 //                            [
 //                                'label' => Yii::t('app', 'Users'),
