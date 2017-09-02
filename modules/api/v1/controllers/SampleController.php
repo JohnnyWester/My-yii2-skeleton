@@ -1,16 +1,23 @@
 <?php
-/**
- * @apiDescription some additional information
- */
+
 namespace app\modules\api\v1\controllers;
 
-
 use Yii;
+use yii\filters\auth\HttpBearerAuth;
 use yii\rest\Controller;
 use yii\web\BadRequestHttpException;
 
 class SampleController extends Controller
 {
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::className(),
+        ];
+        return $behaviors;
+    }
+
     protected function verbs()
     {
         return [
