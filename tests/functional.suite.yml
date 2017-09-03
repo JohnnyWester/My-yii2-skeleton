@@ -11,3 +11,11 @@ modules:
     enabled:
       - Filesystem
       - Yii2
+#      - PhpBrowser:
+#           url: 'http://sample.basic/index-test.php'
+#           part: [json]
+#      - Yii2:
+#            part: [orm, email, fixtures]
+#            entryScript: index-test.php
+
+

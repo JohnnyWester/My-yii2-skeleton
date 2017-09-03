@@ -15,7 +15,7 @@ class m170902_085411_add_role_id_column_to_user_table extends Migration
      */
     public function up()
     {
-        $this->addColumn('user', 'role_id', $this->integer()->defaultValue(1)->after('access_token'));
+        $this->addColumn('user', 'role_id', $this->integer()->defaultValue(2)->after('access_token'));
 
         // creates index for column `role_id`
         $this->createIndex(

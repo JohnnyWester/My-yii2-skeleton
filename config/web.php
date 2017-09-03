@@ -8,6 +8,7 @@ $db = array_merge(
     require(__DIR__ . '/db.php'),
     require(__DIR__ . '/db-local.php')
 );
+//$db = require(__DIR__ . '/test_db.php');
 
 $config = [
     'id' => 'basic',
@@ -31,6 +32,16 @@ $config = [
                 'application/json' => 'yii\web\JsonParser',
             ],
         ],
+        'response' => [
+            'formatters' => [
+                'json' => [
+                    'class' => 'yii\web\JsonResponseFormatter',
+                    'prettyPrint' => YII_DEBUG,
+                    'encodeOptions' => JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
+                ],
+            ],
+        ],
+
 //        'assetManager' => [
 //            'linkAssets' => true,// все время ссылается на исходники, а не копирует их
 //            'linkAssets' => !empty(YII_ENV_DEV )? true : false ,
