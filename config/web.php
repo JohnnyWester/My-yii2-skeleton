@@ -81,7 +81,7 @@ $config = [
     ],
     'params' => $params,
     'sourceLanguage' => 'en-EN',
-    'language' => 'ru-RU',
+    //'language' => 'ru-RU',
     'timeZone' => 'Europe/Kiev',
 ];
 

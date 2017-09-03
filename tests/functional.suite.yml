@@ -9,10 +9,13 @@
 class_name: FunctionalTester
 modules:
     enabled:
-      - Asserts
       - Filesystem
-      - Yii2:
-            part: [orm, email, fixtures]
-            entryScript: index-test.php
+      - Yii2
+#      - PhpBrowser:
+#           url: 'http://sample.basic/index-test.php'
+#           part: [json]
+#      - Yii2:
+#            part: [orm, email, fixtures]
+#            entryScript: index-test.php
 
 

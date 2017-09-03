@@ -1,5 +1,9 @@
 <?php
-$params = require(__DIR__ . '/params.php');
+$params = array_merge(
+    require(__DIR__ . '/params.php'),
+    require(__DIR__ . '/params-local.php')
+);
+
 $db = require(__DIR__ . '/test_db.php');
 
 /**
@@ -8,7 +12,7 @@ $db = require(__DIR__ . '/test_db.php');
 return [
     'id' => 'basic-tests',
     'basePath' => dirname(__DIR__),    
-    'language' => 'en-US',
+    'language' => 'en-EN',
     'components' => [
         'db' => $db,
         'mailer' => [
@@ -35,4 +39,6 @@ return [
         ],        
     ],
     'params' => $params,
+    'sourceLanguage' => 'en-EN',
+
 ];

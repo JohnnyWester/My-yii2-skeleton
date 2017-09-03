@@ -1,8 +1,17 @@
 <?php
+
+use app\tests\fixtures\UserFixture;
+
 class LoginFormCest
 {
     public function _before(\FunctionalTester $I)
     {
+        $I->haveFixtures([
+            'user' => [
+                'class' => UserFixture::className(),
+            ]
+        ]);
+
         $I->amOnRoute('site/login');
     }
 
@@ -50,9 +59,9 @@ class LoginFormCest
     {
         $I->submitForm('#login-form', [
             'LoginForm[username]' => 'admin',
-            'LoginForm[password]' => 'admin',
+            'LoginForm[password]' => 'admin!!!',
         ]);
         $I->see('Logout (admin)');
-        $I->dontSeeElement('form#login-form');              
+        $I->dontSeeElement('form#login-form');
     }
-}
+}//LoginFormCest
