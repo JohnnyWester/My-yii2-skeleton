@@ -9,5 +9,10 @@
 class_name: FunctionalTester
 modules:
     enabled:
+      - Asserts
       - Filesystem
-      - Yii2
+      - Yii2:
+            part: [orm, email, fixtures]
+            entryScript: index-test.php
+
+

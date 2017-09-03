@@ -16,6 +16,33 @@
         <echo msg="Created docs for api..." />
         <exec command = "apidoc -i modules/api/v1/controllers/ -o web/apidoc/" dir = "." />
     </target>
+
+    <target name="fill test db">
+        <echo msg="Fill test db..." />
+        <exec command = "php tests\bin\yii migrate" dir = "." />
+    </target>
+
+    <target name="unit_tests">
+        <echo msg="Start unit tests..." />
+        <exec command = "vendor/bin/codecept run unit" dir = "." />
+    </target>
+
+    <target name="functional_tests">
+        <echo msg="Start functional tests..." />
+        <exec command = "vendor/bin/codecept run functional" dir = "." />
+    </target>
+
+    <!--<target name="all_tests" depends="unit_tests functional_tests">-->
+        <!--<echo msg="Start functional tests..." />-->
+        <!--<exec command = "" dir = "" />-->
+    <!--</target>-->
+
+    <!--<target name="sample">-->
+        <!--<echo msg="Sample..." />-->
+        <!--<exec command = "" dir = "" />-->
+    <!--</target>-->
+
+
     <target name="build" depends="">
 
     </target>
