@@ -1,16 +1,4 @@
-#class_name: ApiTester
-#modules:
-#    enabled:
-#        - REST:
-#            depends: PhpBrowser
-#            url: 'http://sample.basic'
-#            part: [json]
-#        - \Helper\Api
-#    config:
-#        - Yii2:
-#              part: [orm, fixtures]
-
-
+### start server for tests: php -S 127.0.0.1:8080 -t web/
 class_name: ApiTester
 modules:
    enabled:

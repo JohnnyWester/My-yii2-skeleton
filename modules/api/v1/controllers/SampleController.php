@@ -60,10 +60,9 @@ class SampleController extends Controller
      */
     public function actionIndex()
     {
-        $user = User::findOne(1)->username;
-        //return Yii::$app->request->get('id');
-        //return $user;
-        return ['action' => 'index'];
+        $id = Yii::$app->request->get('id');
+        $user = User::findOne($id)->username;
+        return ['user' => $user];
     }
 
 

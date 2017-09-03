@@ -20,9 +20,9 @@ class SampleApiCest
     {
         $I->wantTo('Get data via API');
         $I->amBearerAuthenticated('admin-token');
-        $I->sendGET('v1/sample', ['id' => 10]);
+        $I->sendGET('v1/sample', ['id' => 100]);
         $I->seeResponseIsJson();
-        $I->seeResponseContains('{"action":"index"}');
+        $I->seeResponseContains('{"user":"admin"}');
     }
 
 }//SampleApiCest
