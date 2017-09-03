@@ -1,14 +1,25 @@
-#actor: ApiTester
+#class_name: ApiTester
 #modules:
 #    enabled:
+#        - REST:
+#            depends: PhpBrowser
+#            url: 'http://sample.basic'
+#            part: [json]
 #        - \Helper\Api
+#    config:
+#        - Yii2:
+#              part: [orm, fixtures]
+
 
 class_name: ApiTester
 modules:
-    enabled:
-        - REST:
-            url: /api/v1
-            depends: Yii2
-        - \Helper\Api
-    config:
-        - Yii2
+   enabled:
+       - REST:
+           depends: PhpBrowser
+           url: 'http://127.0.0.1:8080/index-test.php?r='
+           part: [json, fixtures]
+       - Yii2:
+           part: [orm, fixtures]
+           entryScript: index-test.php
+
+

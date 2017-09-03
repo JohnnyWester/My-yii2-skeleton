@@ -2,6 +2,7 @@
 
 namespace app\modules\api\v1\controllers;
 
+use app\models\User;
 use Yii;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\Controller;
@@ -59,6 +60,9 @@ class SampleController extends Controller
      */
     public function actionIndex()
     {
+        $user = User::findOne(1)->username;
+        //return Yii::$app->request->get('id');
+        //return $user;
         return ['action' => 'index'];
     }
 
