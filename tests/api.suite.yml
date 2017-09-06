@@ -9,5 +9,13 @@ modules:
        - Yii2:
            part: [orm, fixtures]
            entryScript: index-test.php
+       - Db:
+            dsn: 'mysql:host=localhost;dbname=sample_tests'
+            user: 'root'
+            password: ''
+            #dump: 'tests/_data/dump.sql'
+            populate: true
+            cleanup: false
+            reconnect: true
 
 
