@@ -31,11 +31,11 @@ class AuthEmailCheck implements ICheckInputParams
         if (!$pass) {
             throw new BadRequestHttpException('Invalid data. Password not send', 10);
         }
-        $name = $params['name'];
+        $username = $params['username'];
         $img = $params['img'];
         $tel = $params['tel'];
 
-        return ['email' => $email, 'tel' => $tel, 'name' => $name, 'password' => $pass, 'img' => $img];
+        return ['email' => $email, 'tel' => $tel, 'username' => $username, 'password' => $pass, 'img' => $img];
 
     }
 }//AuthEmail

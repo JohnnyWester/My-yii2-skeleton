@@ -12,21 +12,21 @@ use Yii;
  */
 class SocialProviders extends \yii\db\ActiveRecord
 {
-    const GOOGLE   = 1;
+    const VK       = 1;
     const FACEBOOK = 2;
-    const VK       = 3;
+    const GOOGLE   = 3;
 
     public static $providers = [
-        self::GOOGLE   => 1,
+        self::VK       => 1,
         self::FACEBOOK => 2,
-        self::VK       => 3,
-
+        self::GOOGLE   => 3,
     ];
 
     public static $providersNames = [
-        1 => 'GOOGLE',
+        1 => 'VK',
         2 => 'FACEBOOK',
-        3 => 'VK',
+        3 => 'GOOGLE',
+
     ];
 
     /**

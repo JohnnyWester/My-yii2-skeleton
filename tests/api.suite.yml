@@ -4,13 +4,13 @@ modules:
    enabled:
        - REST:
            depends: PhpBrowser
-           url: 'http://127.0.0.1:8080/index-test.php?r='
+           url: 'http://127.0.0.1:9090/index-test.php?r='
            part: [json, fixtures]
        - Yii2:
            part: [orm, fixtures]
            entryScript: index-test.php
        - Db:
-            dsn: 'mysql:host=localhost;dbname=sample_tests'
+            dsn: 'mysql:host=localhost;dbname=mateka_tests'
             user: 'root'
             password: ''
             #dump: 'tests/_data/dump.sql'

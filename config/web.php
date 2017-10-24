@@ -12,7 +12,7 @@ $db = array_merge(
 
 $config = [
     'id' => 'basic',
-    'name' => 'Skeleton',
+    'name' => 'MATEKA',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [

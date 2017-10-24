@@ -28,14 +28,14 @@ class AuthSocialCheck implements ICheckInputParams
             throw new BadRequestHttpException('Invalid data. Client_id not send', 10);
         }
 
-        $name = $params['name'];
+        $username = $params['username'];
         $email = $params['email'] ?: '';
         $img = $params['img'] ?: null;
 
         return [
             'provider_id' => $provider_id,
             'client_id'   => $client_id,
-            'name'        => $name,
+            'username'    => $username,
             'email'       => $email,
             'img'         => $img,
         ];

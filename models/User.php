@@ -15,6 +15,8 @@ use yii\web\IdentityInterface;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
+ * @property string $tel
+ * @property string $img
  * @property string $auth_key
  * @property string $access_token
  * @property integer $role_id
@@ -55,6 +57,16 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['email', 'trim'],
+            ['email', 'email'],
+            ['email', 'string', 'max' => 255],
+            [
+                'email',
+                'unique',
+                'targetClass' => 'app\models\User',
+                'message'     => 'This email address has already been taken.',
+            ],
+
         ];
     }
 
@@ -84,6 +96,19 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
+
+
+    /**
+     * Finds user by email
+     *
+     * @param $email
+     * @return static
+     */
+    public static function findByEmail($email)
+    {
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
+    }
+
 
     /**
      * Finds user by password reset token
@@ -203,5 +228,10 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->access_token = Yii::$app->security->generateRandomString();
     }
+
+    public function getSocial()
+    {
+        return SocialAccounts::find()->where(['user_id' => $this->id])->all();
+    }//getSocial
 
 }//User

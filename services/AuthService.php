@@ -5,6 +5,7 @@ namespace app\services;
 
 use app\helpers\check\AuthEmailCheck;
 use app\helpers\check\AuthSocialCheck;
+use app\models\RegisterType;
 use app\models\User;
 use app\repositories\SocialRepository;
 use app\repositories\UserRepository;
@@ -32,7 +33,8 @@ class AuthService
         $tester = new AuthEmailCheck($this->userRep, $this->socialRep);
         $res = $tester->check($params);
 
-        /** @todo если в соцсетях есть такой email переподключаем на нового юзера */
+        /** @TODO ПРИВЯЗЫВАЕМ СОЦСЕТИ К АККАУНТУ ПОЛЬЗОВАТЕЛЯ */
+        /** если в соцсетях есть такой email переподключаем на нового юзера */
         if ($social = $this->socialRep->get('*', ['email' => $res['email']])) {
             // старый клиент
             $oldUser = User::findOne($social->user_id);
@@ -44,7 +46,7 @@ class AuthService
             $social->user_id = $newUser->id;
             $social->save();
 
-            /** @TODO ВСЕ ОСТАЛЬНЫЕ ДАННЫЕ ПЕРЕКЛЮЧИТЬ НА НОВОГО ЮЗЕРА*/
+            /**  ВСЕ ОСТАЛЬНЫЕ ДАННЫЕ ПЕРЕКЛЮЧИТЬ НА НОВОГО ЮЗЕРА*/
 
             /** @удаляем рандомно созданного для соцсети пользователя */
             $oldUser->delete();
@@ -52,6 +54,8 @@ class AuthService
             $newUser = $this->userRep->addUser($params);
 
         }
+
+        $newUser = $this->userRep->addUser($params, RegisterType::EMAIL);
 
         return $newUser;
     }//emailRegister
@@ -68,7 +72,10 @@ class AuthService
         $res = $tester->check($params);
 
         /** @TODO проверить client_id и provider_id, если есть - ЭТО ЛОГИН, отдаем новый токен */
-        if ($social = $this->socialRep->get('*', ['client_id' => $res['client_id'], 'provider_id' => $res['provider_id']])) {
+        if ($social = $this->socialRep->get('*', ['client_id'   => $res['client_id'],
+                                                  'provider_id' => $res['provider_id'],
+        ]
+        )) {
             // get user
             $client = $this->userRep->get('*', 'id = ' . $social->user_id);
 
@@ -81,16 +88,19 @@ class AuthService
         }
 
 
-        /** @TODO Проверить почту. Если есть, привязываем к юзеру соцсеть */
+        /** @TODO ПРИВЯЗЫВАЕМ СОЦСЕТИ К АККАУНТУ ПОЛЬЗОВАТЕЛЯ */
+        /**  Проверить почту. Если есть, привязываем к юзеру соцсеть */
         if (!$newUser = User::findByEmail($res['email'])) {
             // по email нет  совпадений, регистрируем нового пользователя
             $params['password'] = 'social' . $res['client_id'];
             $newUser = $this->userRep->addUser($params);
         }
 
-        // заполнить social
+
+        /** @TODO  ЗАПОЛННЯЕМ SOCIAL */
         if ($newUser) {
-            if (!$social = $this->socialRep->addSocial($newUser->id, $res['provider_id'], $res['client_id'], $res['name'], $res['email'], $res['img'])) {
+            if (!$social = $this->socialRep->addSocial($newUser->id, $res['provider_id'], $res['client_id'], $res['username'], $res['email'], $res['img'])) {
+                /** @todo если соцсеть не сохранилась, то надо удалить созданного для нее юзера */
                 /** @todo если это новый юзер, а не старый к которому привязываем соцсеть, удаляем его */
                 if ($newUser->validatePassword('social' . $res['client_id'])) {
                     $this->userRep->delete('id = ' . $newUser->id);

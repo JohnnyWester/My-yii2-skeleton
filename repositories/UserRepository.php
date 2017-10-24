@@ -2,11 +2,19 @@
 
 namespace app\repositories;
 
+use app\helpers\Utils;
 use app\models\Role;
 use app\models\User;
+use app\models\Verify;
+use Assert\Assertion;
+use Yii;
+use yii\web\BadRequestHttpException;
 
 class UserRepository extends DefaultIRepository
 {
+
+    const SENDER   = 1;
+    const TRAVELER = 2;
 
     public function __construct(User $model)
     {
@@ -18,23 +26,25 @@ class UserRepository extends DefaultIRepository
 
     /**
      * @param array $params
+     * @param null $registerType
      * @return User|bool
+     * @throws BadRequestHttpException
      */
-    public function addUser(array $params)
+    public function addUser(array $params, $registerType = null)
     {
-        $this->model->username = $params['name'] ?: null;
+        $this->model->username = $params['username'] ?: null;
         $this->model->email = $params['email'];
         $this->model->tel = $params['tel'] ?: null;
         $this->model->setPassword($params['password']);
         $this->model->img = $params['img'] ?: null;
-        $this->model->role_id = Role::CLIENT;
+        $this->model->role_id = Role::USER;
         $this->model->generateAuthKey();
         $this->model->generateAccessToken();
 
-        $this->model->gender = $params['gender'] ?: null;
-        $this->model->height = $params['height'] ?: null;
-        $this->model->weight = $params['weight'] ?: null;
-        $this->model->target = $params['target'] ?: null;
+        if (!$this->model->validate()) {
+
+            throw new BadRequestHttpException(Utils::getLastError($this->model->errors), 20);
+        }
 
         if ($this->model->save()) {
             return $this->model;
@@ -44,23 +54,30 @@ class UserRepository extends DefaultIRepository
     }//addUser
 
 
-    public function editUser(User $client, $params)
+    /**
+     * @param User $model
+     * @param $params
+     * @return User|bool
+     */
+    public function editUser(User $model, $params)
     {
-        $client->username = $params['name'] ?: $client->username;
-        $client->email = $params['email'] ?: $client->email;
-        $client->tel = $params['tel'] ?: $client->tel;
-        if ($params['password']) {
-            $client->setPassword($params['password']);
+        $model->username = $params['name'] ?: $model->username;
+        $model->email = $params['email'] ?: $model->email;
+        $model->tel = $params['tel'] ?: $model->tel;
+
+
+        if ($params['old_password'] && $params['new_password']) {
+            if (!$model->validatePassword($params['old_password'])) {
+                throw new \DomainException('Invalid old password');
+            }
+            $model->setPassword($params['new_password']);
         }
-        $client->img = $params['img'] ?: $client->img;
 
-        $client->gender = $params['gender'] ?: $client->gender;
-        $client->height = $params['height'] ?: $client->height;
-        $client->weight = $params['weight'] ?: $client->weight;
-        $client->target = $params['target'] ?: $client->target;
 
-        if ($client->save()) {
-            return $client;
+        $model->img = $params['img'] ?: $model->img;
+
+        if ($model->save()) {
+            return $model;
         }
 
         return false;
@@ -76,7 +93,9 @@ class UserRepository extends DefaultIRepository
     public function setPasswordResetToken(User $user, $code)
     {
         $user->password_reset_token = $code;
+
         return $user->save();
     }//setPasswordResetToken
+
 
 }//UserRepository

@@ -18,8 +18,9 @@ class m170904_093335_create_social_providers_table extends Migration
         ], 'ENGINE=InnoDB');
 
         $this->batchInsert('social_providers', ['id', 'name'], [
-            [1, 'google'],
+            [1, 'vkontakte'],
             [2, 'facebook'],
+            [3, 'google'],
         ]);
 
     }

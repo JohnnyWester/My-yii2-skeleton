@@ -41,9 +41,11 @@ class AuthController extends Controller
      *
      * При регистрации через email, email - уникален.
      *
+     * Если при регистрации через соцсеть email совпвдет с уже имеющимся, придет exception
+     *
      * При регистрации через соцсети, provider_id и client_id обязательны.
      * В таблицу user добавляется отдельный пользователь.
-     * Если уже существует client_id, происходит логин пользователя.
+     * Если уже существует такой client_id + provider, происходит ЛОГИН пользователя.
      *
      * При последующих входах, если совпадает email, пользователь считается одним и тем же
      * и его профили и все данные объединяются.
@@ -53,49 +55,33 @@ class AuthController extends Controller
      * @apiGroup Auth
      *
      *
-     * @apiParam {Int} type Метод регистрации(1 - email, 2 - соцсети)
-     * @apiParam {Int} [provider_id] Соцсеть(1 - GOOGLE, 2 - FACEBOOK) если регистрация через соцсеть
+     * @apiParam {Int} type           Метод регистрации(1 - email, 2 - соцсети)
+     * @apiParam {Int} [provider_id]  Соцсеть(1 - GOOGLE, 2 - FACEBOOK, 3 - VK) если регистрация через соцсеть
      * @apiParam {String} [client_id] Токен клиента в соцсети
-     * @apiParam {String} [name] Имя клиента
-     * @apiParam {String} password Пароль клиента(НЕОБЯЗАТЕЛЕН при регистрации через соцсети)
-     * @apiParam {String} email Email клиента(НЕОБЯЗАТЕЛЕН при регистрации через соцсети)
-     * @apiParam {String} [tel] Телефон клиента
-     * @apiParam {String} [img] Url фото клиента
+     * @apiParam {String} username    Имя клиента
+     * @apiParam {String} password    Пароль клиента(НЕОБЯЗАТЕЛЕН при регистрации через соцсети)
+     * @apiParam {String} email       Email клиента(НЕОБЯЗАТЕЛЕН при регистрации через соцсети)
+     * @apiParam {String} [tel]       Телефон клиента
+     * @apiParam {String} [city]      Город клиента
+     * @apiParam {String} [img]       Url фото клиента
      *
-     *
-     * @apiSuccess {Int} id Id пользователя в базе
-     * @apiSuccess {Int} role Роль пользователя (GUEST - 1; CLIENT - 2; TRAINER - 3; DOCTOR - 4; ADMIN - 5; DEVELOPER - 10;)
+     * @apiSuccess {Int} id              Id пользователя в базе
+     * @apiSuccess {String} username     Имя пользователя
+     * @apiSuccess {String} email        Email пользователя
      * @apiSuccess {String} access_token Токен доступа к api
-     * @apiSuccess {String} name Имя клиента
-     * @apiSuccess {String} email Email клиента
-     * @apiSuccess {String} gender Пол клиента(1 - мужской, 2 - женский)
-     * @apiSuccess {Float} height Рост клиента
-     * @apiSuccess {Float} weight Вес клиента
-     * @apiSuccess {Float} target Вес-цель клиента
-     * @apiSuccess {String} img Фото клиента
-     * @apiSuccess {String} tel Телефон клиента
-     * @apiSuccess {Int} created Дата создания профиля
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
-     *        "id": 16,
-     *        "role": 2,
-     *        "access_token": "X3NfAiafjRbHDtAGcfHvtweD0HryP5UR",
-     *        "name": "Name3",
+     *        "id": 5,
+     *        "username": "Test Email",
      *        "email": "test@test.com",
-     *        "tel": "+380671112256",
-     *        "img": "",
-     *        "gender": 1,
-     *        "height": 180.5,
-     *        "weight": 90.5,
-     *        "target": 80,
-     *        "created": 1504783967
-     *      }
+     *        "access_token": "kMfbANUvzLKihb16RseerhM5zoyLYdJF"
+     *     }
      *
      * @apiError BadRequest Если переданы не все данные.
      *
-     * @apiErrorExample Error-Response:
+     * @apiErrorExample Неправильные данные:
      *     HTTP/1.1 400 Bad Request
      *     {
      *        "name": "Bad Request",
@@ -104,6 +90,16 @@ class AuthController extends Controller
      *        "status": 400,
      *        "type": "yii\\web\\BadRequestHttpException"
      *     }
+     *
+     * @apiErrorExample Error-Response:
+     *     HTTP/1.1 400 Bad Request
+     *     {
+     *        "name": "Bad Request",
+     *        "message": "This email address has already been taken.",
+     *        "code": 20,
+     *        "status": 400,
+     *        "type": "yii\\web\\BadRequestHttpException"
+     *      }
      */
     public function actionSignup()
     {
@@ -140,35 +136,19 @@ class AuthController extends Controller
      * @apiParam {String} email Email клиента
      * @apiParam {String} password Пароль клиента
      *
-     * @apiSuccess {Int} id Id пользователя в базе
-     * @apiSuccess {Int} role Роль пользователя (GUEST - 1; CLIENT - 2; TRAINER - 3; DOCTOR - 4; ADMIN - 5; DEVELOPER - 10;)
+     * @apiSuccess {Int}    id           Id пользователя в базе
+     * @apiSuccess {String} username     Имя пользователя
+     * @apiSuccess {String} email        Email пользователя
      * @apiSuccess {String} access_token Токен доступа к api
-     * @apiSuccess {String} name Имя клиента
-     * @apiSuccess {String} email Email клиента
-     * @apiSuccess {String} gender Пол клиента(1 - мужской, 2 - женский)
-     * @apiSuccess {Float} height Рост клиента
-     * @apiSuccess {Float} weight Вес клиента
-     * @apiSuccess {Float} target Вес-цель клиента
-     * @apiSuccess {String} img Фото клиента
-     * @apiSuccess {String} tel Телефон клиента
-     * @apiSuccess {Int} created Дата создания профиля
      *
      * @apiSuccessExample Success-Response:
      *     HTTP/1.1 200 OK
      *     {
-     *        "id": 16,
-     *        "role": 2,
-     *        "access_token": "X3NfAiafjRbHDtAGcfHvtweD0HryP5UR",
-     *        "name": "Name3",
+     *        "id": 5,
+     *        "username": "Test Email",
      *        "email": "test@test.com",
-     *        "tel": "+380671112256",
-     *        "img": "",
-     *        "gender": 1,
-     *        "height": 180.5,
-     *        "weight": 90.5,
-     *        "target": 80,
-     *        "created": 1504783967
-     *      }
+     *        "access_token": "kMfbANUvzLKihb16RseerhM5zoyLYdJF"
+     *     }
      *
      * @apiError BadRequest Если переданы не все данные.
      *

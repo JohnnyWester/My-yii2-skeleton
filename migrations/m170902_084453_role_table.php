@@ -15,7 +15,7 @@ class m170902_084453_role_table extends Migration
         $this->batchInsert('role', ['id', 'name'], [
             [1, 'guest'],
             [2, 'user'],
-            [3, 'admin'],
+            [5, 'admin'],
             [10, 'developer'],
         ]);
     }
